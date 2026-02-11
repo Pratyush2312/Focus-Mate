@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import StudyForm from "./components/StudyForm";
 import PlanResult from "./components/PlanResult";
 import { generateStudyPlan } from "./utils/plannerLogic";
@@ -6,6 +6,22 @@ import logo from "./assets/logo.png";
 
 function App() {
   const [plan, setPlan] = useState(null);
+  const [nickname, setNickname] = useState("");
+
+useEffect(() => {
+  let stored = localStorage.getItem("nickname");
+
+  if (!stored) {
+    const name = prompt("Enter your nickname");
+    if (name) {
+      localStorage.setItem("nickname", name);
+      setNickname(name);
+    }
+  } else {
+    setNickname(stored);
+  }
+}, []);
+
 
   const handleGenerate = (data) => {
     const result = generateStudyPlan(
@@ -31,6 +47,10 @@ function App() {
           >
             FocusMate
           </h1>
+          <p className="text-sm text-slate-300 mt-2">
+  Welcome, {nickname}
+</p>
+
         </div>
 
 
